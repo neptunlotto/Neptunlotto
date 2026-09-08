@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/theme/app_colors.dart';
 
 class DashboardScreen extends StatefulWidget {
   final Widget child;
@@ -45,28 +46,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     _currentIndex = _calculateSelectedIndex(context);
 
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
-            ),
-          ],
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.hairline, width: 1)),
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) => _onItemTapped(index, context),
           type: BottomNavigationBarType.fixed,
-          backgroundColor: theme.cardColor,
-          selectedItemColor: theme.colorScheme.secondary,
-          unselectedItemColor: Colors.grey,
+          backgroundColor: AppColors.bgPanel,
+          selectedItemColor: AppColors.goldBright,
+          unselectedItemColor: AppColors.inkMuted,
           showUnselectedLabels: true,
           items: const [
             BottomNavigationBarItem(

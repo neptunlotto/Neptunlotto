@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/theme/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,14 +34,19 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Column(
                   children: [
-                    Image.asset('assets/images/neptun_logo.png', width: 80, height: 80),
-                    const SizedBox(height: 16),
-                    Text(
-                      'NEPTUN LOTTO',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Neptun Lotto',
+                          style: theme.textTheme.displayMedium?.copyWith(
+                            color: AppColors.goldBright,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Icon(Icons.eco,
+                            color: AppColors.greenEmeraldBright, size: 32),
+                      ],
                     ),
                   ],
                 ),

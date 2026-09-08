@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -8,7 +9,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
 
@@ -24,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _controller.forward().then((_) {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
-          // Hardcoded flow for now
-          context.go('/onboarding');
+          // Hardcoded flow for now -> to login
+          context.go('/login');
         }
       });
     });
@@ -42,30 +44,34 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.primaryColor,
+      backgroundColor: AppColors.bgVoid,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/neptun_logo.png', width: 150, height: 150),
-              const SizedBox(height: 24),
-              Text(
-                'NEPTUN\nLOTTO',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.displayMedium?.copyWith(
-                  color: theme.colorScheme.secondary,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 4.0,
-                  height: 1.2,
-                ),
+              // Removed image as requested
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Neptun Lotto',
+                    style: theme.textTheme.displayMedium?.copyWith(
+                      color: AppColors.goldBright,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.eco,
+                      color: AppColors.greenEmeraldBright, size: 32),
+                ],
               ),
               const SizedBox(height: 16),
               Text(
-                'Your chance. Your draw.',
+                'PLAY THE FUTURE',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: Colors.white70,
+                  color: AppColors.inkMuted,
                   letterSpacing: 2.0,
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:async';
+import '../../../core/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,19 +50,28 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: AppColors.bgVoid,
       appBar: AppBar(
-        title: Text(
-          'NEPTUN LOTTO',
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-            color: Colors.white,
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Neptun Lotto',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+                color: AppColors.goldBright,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.eco,
+                color: AppColors.greenEmeraldBright, size: 24),
+          ],
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
-        actionsIconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppColors.cream),
+        actionsIconTheme: const IconThemeData(color: AppColors.cream),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_balance_wallet_outlined),
@@ -87,16 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 left: 24,
                 right: 24,
               ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    theme.primaryColor,
-                    theme.primaryColor.withValues(alpha: 0.8),
+                    AppColors.bgPanel,
+                    AppColors.bgVoid,
                   ],
                 ),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(32),
                   bottomRight: Radius.circular(32),
                 ),
@@ -106,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     'NEXT DRAW',
                     style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white70,
+                      color: AppColors.inkMuted,
                       letterSpacing: 2,
                     ),
                   ),
@@ -114,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     _formatDuration(_timeLeft),
                     style: theme.textTheme.displayLarge?.copyWith(
-                      color: Colors.white,
+                      color: AppColors.cream,
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
                     ),
@@ -125,20 +135,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: theme.colorScheme.secondary.withValues(alpha: 0.3),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                          color: AppColors.gold.withValues(alpha: 0.25),
+                          blurRadius: 18,
+                          offset: const Offset(0, 6),
                         ),
                       ],
                     ),
                     child: ElevatedButton(
                       onPressed: () => context.push('/buy-ticket'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.secondary,
-                        foregroundColor: theme.primaryColor,
+                        backgroundColor: AppColors.goldBright,
+                        foregroundColor: AppColors.bgVoid,
                         padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(999),
                         ),
                       ),
                       child: Column(
@@ -157,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: theme.primaryColor.withValues(alpha: 0.8),
+                              color: AppColors.bgVoid.withValues(alpha: 0.8),
                             ),
                           ),
                         ],
@@ -187,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TextButton(
                         onPressed: () => context.go('/dashboard/results'),
-                        child: const Text('View All'),
+                        child: const Text('View All', style: TextStyle(color: AppColors.goldBright)),
                       ),
                     ],
                   ),
@@ -210,27 +220,21 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.cardColor,
+        color: AppColors.bgPanelRaised,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: AppColors.hairline),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: theme.colorScheme.secondary.withValues(alpha: 0.1),
+              color: AppColors.greenEmeraldBright.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.emoji_events,
-              color: theme.colorScheme.secondary,
+              color: AppColors.goldBright,
             ),
           ),
           const SizedBox(width: 16),
@@ -255,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             prize,
             style: theme.textTheme.titleLarge?.copyWith(
-              color: Colors.green,
+              color: AppColors.greenEmeraldBright,
               fontWeight: FontWeight.bold,
             ),
           ),

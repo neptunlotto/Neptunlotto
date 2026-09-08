@@ -36,45 +36,48 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Text(
                   'johndoe@example.com',
-                  style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: Colors.white70),
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.2),
+                    color: const Color.fromARGB(255, 109, 123, 56)
+                        .withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.green),
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 216, 244, 122)),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.verified, color: Colors.green, size: 16),
+                      Icon(Icons.verified,
+                          color: Color.fromARGB(255, 216, 244, 122), size: 16),
                       SizedBox(width: 8),
-                      Text('KYC VERIFIED', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                      Text('KYC VERIFIED',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 216, 244, 122),
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          
           const SizedBox(height: 16),
-          
           _buildSectionHeader('ACCOUNT', theme),
           _buildListTile(Icons.person_outline, 'Personal Information', theme),
           _buildListTile(Icons.badge_outlined, 'KYC Verification', theme),
-          
           _buildSectionHeader('SECURITY', theme),
           _buildListTile(Icons.lock_outline, 'Change Password', theme),
           _buildListTile(Icons.security, 'Two-Factor Authentication', theme),
-          _buildListTile(Icons.devices, 'Active Sessions', theme),
-          
           _buildSectionHeader('PREFERENCES & SUPPORT', theme),
           _buildListTile(Icons.notifications_outlined, 'Notifications', theme),
           _buildListTile(Icons.help_outline, 'Support', theme),
-          _buildListTile(Icons.block, 'Self Exclusion', theme, color: Colors.orange),
-          
+          _buildListTile(Icons.block, 'Self Exclusion', theme,
+              color: Colors.orange),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -108,7 +111,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(IconData icon, String title, ThemeData theme, {Color? color}) {
+  Widget _buildListTile(IconData icon, String title, ThemeData theme,
+      {Color? color}) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       leading: Icon(icon, color: color ?? theme.iconTheme.color),

@@ -11,26 +11,26 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.light,
+      brightness: Brightness.dark, // The web app uses dark mode by default
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.backgroundLight,
-      colorScheme: const ColorScheme.light(
+      colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.secondary,
         surface: AppColors.surfaceLight,
         error: AppColors.error,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(color: AppColors.textPrimaryLight, fontWeight: FontWeight.bold),
-        displayMedium: GoogleFonts.inter(color: AppColors.textPrimaryLight, fontWeight: FontWeight.bold),
-        titleLarge: GoogleFonts.inter(color: AppColors.textPrimaryLight, fontWeight: FontWeight.w600),
-        bodyLarge: GoogleFonts.inter(color: AppColors.textPrimaryLight),
-        bodyMedium: GoogleFonts.inter(color: AppColors.textSecondaryLight),
+      textTheme: GoogleFonts.workSansTextTheme(ThemeData.dark().textTheme).copyWith(
+        displayLarge: GoogleFonts.playfairDisplay(color: AppColors.textPrimaryLight, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+        displayMedium: GoogleFonts.playfairDisplay(color: AppColors.textPrimaryLight, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+        titleLarge: GoogleFonts.workSans(color: AppColors.textPrimaryLight, fontWeight: FontWeight.w600),
+        bodyLarge: GoogleFonts.workSans(color: AppColors.textPrimaryLight),
+        bodyMedium: GoogleFonts.workSans(color: AppColors.textSecondaryLight),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
+          backgroundColor: AppColors.secondary,
+          foregroundColor: AppColors.bgVoid,
           minimumSize: const Size(double.infinity, buttonHeight),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
@@ -40,7 +40,7 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimaryLight,
           side: const BorderSide(color: AppColors.borderLight, width: 2),
           minimumSize: const Size(double.infinity, buttonHeight),
           shape: RoundedRectangleBorder(
@@ -62,7 +62,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -81,74 +81,6 @@ class AppTheme {
   }
 
   static ThemeData get darkTheme {
-    return ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.dark,
-      primaryColor: AppColors.primary,
-      scaffoldBackgroundColor: AppColors.backgroundDark,
-      colorScheme: const ColorScheme.dark(
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
-        surface: AppColors.surfaceDark,
-        error: AppColors.error,
-      ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(color: AppColors.textPrimaryDark, fontWeight: FontWeight.bold),
-        displayMedium: GoogleFonts.inter(color: AppColors.textPrimaryDark, fontWeight: FontWeight.bold),
-        titleLarge: GoogleFonts.inter(color: AppColors.textPrimaryDark, fontWeight: FontWeight.w600),
-        bodyLarge: GoogleFonts.inter(color: AppColors.textPrimaryDark),
-        bodyMedium: GoogleFonts.inter(color: AppColors.textSecondaryDark),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.secondary,
-          foregroundColor: AppColors.primary,
-          minimumSize: const Size(double.infinity, buttonHeight),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          elevation: 0,
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textPrimaryDark,
-          side: const BorderSide(color: AppColors.borderDark, width: 2),
-          minimumSize: const Size(double.infinity, buttonHeight),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: AppColors.surfaceDark,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: AppColors.borderDark),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: AppColors.borderDark),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: const BorderSide(color: AppColors.error),
-        ),
-      ),
-      cardTheme: CardThemeData(
-        color: AppColors.surfaceDark,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          side: const BorderSide(color: AppColors.borderDark),
-        ),
-      ),
-    );
+    return lightTheme; // For this design, light and dark are the same dark emerald style
   }
 }
