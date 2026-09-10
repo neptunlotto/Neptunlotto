@@ -1,14 +1,71 @@
+import 'dart:async';
 import 'package:application/features/home/screens/notifications_screen.dart';
 import 'package:application/features/tickets/screens/buy_ticket_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:application/core/providers/auth_provider.dart';
+import 'package:application/core/providers/wallet_provider.dart';
+import 'package:application/core/providers/lottery_provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final Function(int)? onNavigate;
 
   const HomeScreen({super.key, this.onNavigate});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Timer? _timer;
+  Duration _timeLeft = const Duration(hours: 24);
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      final lotteryProvider = Provider.of<LotteryProvider>(context, listen: false);
+      if (lotteryProvider.upcomingDraw != null) {
+        final now = DateTime.now();
+        if (lotteryProvider.upcomingDraw!.drawDate.isAfter(now)) {
+          setState(() {
+            _timeLeft = lotteryProvider.upcomingDraw!.drawDate.difference(now);
+          });
+        } else {
+          // Draw time reached!
+          lotteryProvider.simulateDrawExecution(
+            Provider.of<WalletProvider>(context, listen: false),
+          );
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final walletProvider = Provider.of<WalletProvider>(context);
+    final lotteryProvider = Provider.of<LotteryProvider>(context);
+    final userName = authProvider.currentUser?.name ?? 'Player';
+    final walletBalance = '\$${walletProvider.balance.toStringAsFixed(2)}';
+    final ticketCount = '${lotteryProvider.tickets.length} Tickets';
+    final drawId = lotteryProvider.upcomingDraw?.id.replaceAll('draw_', '#') ?? '#---';
+    
+    String hours = _timeLeft.inHours.toString().padLeft(2, '0');
+    String minutes = (_timeLeft.inMinutes % 60).toString().padLeft(2, '0');
+    String seconds = (_timeLeft.inSeconds % 60).toString().padLeft(2, '0');
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F9FC), // Light greyish blue background
       body: SingleChildScrollView(
@@ -42,22 +99,22 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 16),
                     // Header Row
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hello, Rajnikant 👋',
-                              style: TextStyle(
+                              'Hello, $userName 👋',
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 4),
-                            Text(
+                            const SizedBox(height: 4),
+                            const Text(
                               'Your Chance. Your Draw.',
                               style: TextStyle(
                                 color: Colors.white70,
@@ -105,14 +162,14 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              const Text(
-                                '#1023',
-                                style: TextStyle(
-                                  color: Color(0xFF031A32),
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w900,
+                                Text(
+                                  drawId,
+                                  style: const TextStyle(
+                                    color: Color(0xFF031A32),
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
-                              ),
                               const SizedBox(height: 16),
 
                               const Text(
@@ -125,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                               const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  _buildTimeBox('05'),
+                                  _buildTimeBox(hours),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 4.0,
@@ -138,7 +195,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  _buildTimeBox('32'),
+                                  _buildTimeBox(minutes),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 4.0,
@@ -151,7 +208,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  _buildTimeBox('17'),
+                                  _buildTimeBox(seconds),
                                 ],
                               ),
 
@@ -273,11 +330,11 @@ class HomeScreen extends StatelessWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap:
-                                () => onNavigate?.call(3), // Wallet is index 3
+                                () => widget.onNavigate?.call(3), // Wallet is index 3
                             child: _buildQuickActionCard(
                               Icons.account_balance_wallet_outlined,
                               'Wallet',
-                              '\$125.00',
+                              walletBalance,
                               Colors.teal,
                             ),
                           ),
@@ -286,11 +343,11 @@ class HomeScreen extends StatelessWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap:
-                                () => onNavigate?.call(1), // Tickets is index 1
+                                () => widget.onNavigate?.call(1), // Tickets is index 1
                             child: _buildQuickActionCard(
                               Icons.confirmation_number_outlined,
                               'My Tickets',
-                              '3 Tickets',
+                              ticketCount,
                               Colors.purple,
                             ),
                           ),
@@ -299,7 +356,7 @@ class HomeScreen extends StatelessWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap:
-                                () => onNavigate?.call(2), // Results is index 2
+                                () => widget.onNavigate?.call(2), // Results is index 2
                             child: _buildQuickActionCard(
                               Icons.emoji_events_outlined,
                               'Results',
@@ -407,7 +464,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  onNavigate?.call(2);
+                                  widget.onNavigate?.call(2);
                                 },
                                 child: const Text(
                                   'View All Results',

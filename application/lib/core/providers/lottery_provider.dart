@@ -50,7 +50,7 @@ class LotteryProvider with ChangeNotifier {
   void _initDraws() {
     // Setup an upcoming draw 24 hours from now
     _upcomingDraw = DrawModel(
-      id: 'draw_${DateTime.now().millisecondsSinceEpoch}',
+      id: 'draw_${Random().nextInt(9000) + 1000}',
       drawDate: DateTime.now().add(const Duration(hours: 24)),
       winningNumber: '',
     );
@@ -121,7 +121,7 @@ class LotteryProvider with ChangeNotifier {
 
     // Setup next draw
     _upcomingDraw = DrawModel(
-      id: 'draw_${DateTime.now().millisecondsSinceEpoch}',
+      id: 'draw_${Random().nextInt(9000) + 1000}',
       drawDate: DateTime.now().add(const Duration(hours: 24)),
       winningNumber: '',
     );
