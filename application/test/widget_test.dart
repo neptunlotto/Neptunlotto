@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:application/app/app.dart';
+import 'package:application/main.dart';
 
 void main() {
   testWidgets('App builds smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const NeptunLottoApp());
+    await tester.pumpWidget(const NeptunlottoApp());
     
     // Just verify it doesn't crash on build
     expect(find.byType(MaterialApp), findsOneWidget);

@@ -17,7 +17,7 @@ class TicketCardWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-        height: 220,
+        height: 240,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
@@ -253,7 +253,7 @@ class TicketCardWidget extends StatelessWidget {
                                     ),
                                     // View Details Button
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: const Color(0xFFD4AF37)), // Gold border
                                         borderRadius: BorderRadius.circular(16),
@@ -261,7 +261,7 @@ class TicketCardWidget extends StatelessWidget {
                                       child: const Row(
                                         children: [
                                           Text(
-                                            'View Details',
+                                            'Details',
                                             style: TextStyle(
                                               color: Color(0xFF031A32),
                                               fontSize: 12,
