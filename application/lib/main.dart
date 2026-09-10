@@ -1,8 +1,21 @@
 import 'package:application/features/auth/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:application/core/providers/auth_provider.dart';
+import 'package:application/core/providers/wallet_provider.dart';
+import 'package:application/core/providers/lottery_provider.dart';
 
 void main() {
-  runApp(const NeptunlottoApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => WalletProvider()),
+        ChangeNotifierProvider(create: (_) => LotteryProvider()),
+      ],
+      child: const NeptunlottoApp(),
+    ),
+  );
 }
 
 class NeptunlottoApp extends StatelessWidget {

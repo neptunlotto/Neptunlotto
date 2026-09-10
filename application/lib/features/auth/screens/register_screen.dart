@@ -1,6 +1,8 @@
 import 'package:application/features/auth/screens/otp_screen.dart';
 import 'package:application/features/auth/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:application/core/providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,6 +15,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
   bool _agreeToTerms = false;
+  
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _nationalIdController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _nationalIdController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   Widget _buildTextField(
     String label,
@@ -20,6 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     bool isPassword = false,
     bool? obscureText,
     VoidCallback? onToggleObscure,
+    TextEditingController? controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,6 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           obscureText: obscureText ?? false,
           decoration: InputDecoration(
             hintText: hint,
@@ -116,15 +138,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 32),
 
-              _buildTextField('Full Name', 'Rajnikant'),
-              _buildTextField('Email', 'rajnikant@example.com'),
-              _buildTextField('Phone', '+91 9876543210'),
+              _buildTextField('Full Name', 'Rajnikant', controller: _nameController),
+              _buildTextField('Email', 'rajnikant@example.com', controller: _emailController),
+              _buildTextField('Phone', '+91 9876543210', controller: _phoneController),
+              _buildTextField('National ID / Passport', 'A1234567', controller: _nationalIdController),
 
               _buildTextField(
                 'Password',
                 '**********',
                 isPassword: true,
                 obscureText: _obscurePassword,
+                controller: _passwordController,
                 onToggleObscure: () {
                   setState(() {
                     _obscurePassword = !_obscurePassword;
@@ -137,6 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 '**********',
                 isPassword: true,
                 obscureText: _obscureConfirmPassword,
+                controller: _confirmPasswordController,
                 onToggleObscure: () {
                   setState(() {
                     _obscureConfirmPassword = !_obscureConfirmPassword;
@@ -178,11 +203,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 24),
 
               ElevatedButton(
-                onPressed: () {
-                  // Navigate to OTP screen
-                  Navigator.of(
-                    context,
-                  ).push(MaterialPageRoute(builder: (_) => const OtpScreen()));
+                onPressed: () async {
+                  if (!_agreeToTerms) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please agree to terms')),
+                    );
+                    return;
+                  }
+                  
+                  final auth = Provider.of<AuthProvider>(context, listen: false);
+                  final success = await auth.register(
+                    name: _nameController.text,
+                    email: _emailController.text,
+                    phone: _phoneController.text,
+                    nationalId: _nationalIdController.text,
+                    password: _passwordController.text,
+                  );
+                  
+                  if (success && mounted) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const OtpScreen()),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF1865F2), // Bright blue
