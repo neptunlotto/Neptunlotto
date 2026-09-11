@@ -123,10 +123,42 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        const CircleAvatar(
-                          backgroundColor: Color(0xFF1865F2),
-                          radius: 24,
-                          child: Icon(Icons.person, color: Colors.white),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const NotificationsScreen(),
+                              ),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              const CircleAvatar(
+                                backgroundColor: Color(0xFF1865F2),
+                                radius: 24,
+                                child: Icon(Icons.notifications_none, color: Colors.white),
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.redAccent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Text(
+                                    '2',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -368,77 +400,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 24),
-
-                    // Notifications Banner
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const NotificationsScreen(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.02),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                              backgroundColor: Color(0xFFFFF0F0),
-                              radius: 16,
-                              child: Icon(
-                                Icons.notifications_active,
-                                size: 16,
-                                color: Colors.redAccent,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            const Expanded(
-                              child: Text(
-                                'Notifications',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF031A32),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Text(
-                                '2 New',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            const Icon(Icons.chevron_right, color: Colors.grey),
-                          ],
-                        ),
-                      ),
-                    ),
 
                     const SizedBox(height: 24),
 
@@ -477,13 +438,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          _buildWinnerRow('58392017462'),
-                          _buildWinnerRow('92837461820'),
-                          _buildWinnerRow('10482736591'),
-                          _buildWinnerRow('47281930564'),
-                          _buildWinnerRow('81726394015'),
-                          _buildWinnerRow('39281746520'),
-                          _buildWinnerRow('62019483751'),
+                          _buildWinnerRow('58392017462', 1),
+                          _buildWinnerRow('92837461820', 2),
+                          _buildWinnerRow('10482736591', 3),
+                          _buildWinnerRow('47281930564', 4),
+                          _buildWinnerRow('81726394015', 5),
+                          _buildWinnerRow('39281746520', 6),
+                          _buildWinnerRow('62019483751', 7),
                         ],
                       ),
                     ),
@@ -536,7 +497,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             padding: const EdgeInsets.all(10),
@@ -546,22 +508,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: Icon(icon, color: color, size: 24),
           ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF031A32),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: color,
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF031A32),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: color,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -569,7 +546,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildWinnerRow(String number) {
+  Widget _buildWinnerRow(String number, int rank) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: Row(
@@ -581,10 +558,10 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Color(0xFFFFD700), // Gold
               shape: BoxShape.circle,
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                '7G',
-                style: TextStyle(
+                '#$rank',
+                style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF8B6508),
